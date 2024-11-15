@@ -1,7 +1,7 @@
 import { auth, signOut } from "@/auth";
 import { Button } from "@/components/ui/button";
 import ROUTES from '@/constans/routes';
-import SignIn from '../(auth)/sign-in/page';
+
 
 
 const Home = async () => {

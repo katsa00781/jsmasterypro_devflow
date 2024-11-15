@@ -56,7 +56,7 @@ const SocialAuthForm = () => {
       </Button>
 
       <Button
-        className={buttonClass}
+        className={buttonClass} onClick={ () => handeSignIn("google")}
       >
         <Image
           src="/icons/google.svg"
