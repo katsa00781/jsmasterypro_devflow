@@ -1,20 +1,13 @@
-import { auth, signOut } from "@/auth";
-import { Button } from "@/components/ui/button";
-import ROUTES from '@/constans/routes';
-
+import { auth } from "@/auth";
 
 
 const Home = async () => {
-
   const session = await auth();
 
   console.log(session);
-  return (
-    <>
-    <h1 className="text-3xl font-bold">Hello</h1>
-    </>
-   
-  );
-}
+  return <>
+  <h1 className="h1-bold">Home</h1>
+  </>;
+};
 
-export default Home
+export default Home;
