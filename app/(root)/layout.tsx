@@ -1,8 +1,8 @@
 import React from "react";
 
-import Navbar from "@/components/ui/navigation/navbar/Index";
-import LeftSidebar from "@/components/ui/navigation/navbar/LeftSidebar";
-import RightSidebar from "@/components/ui/navigation/navbar/RightSidebar";
+import Navbar from "@/components/navigation/navbar/Index";
+import LeftSidebar from "@/components/navigation/navbar/LeftSidebar";
+import RightSidebar from "@/components/navigation/navbar/RightSidebar";
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="background-light850_dark100 relative">

@@ -1,15 +1,20 @@
-import React from 'react'
-import NavLinks from './NavLinks'
-import Link from 'next/link'
-import { Button } from '../../button'
-import ROUTES from '@/constans/routes'
 import Image from 'next/image'
+import Link from 'next/link'
+import React from 'react'
+
+import { Button } from '@/components/ui/button';
+import ROUTES from '@/constans/routes'
+
+import NavLinks from './NavLinks'
+
+
+
+
 
 const LeftSidebar = () => {
   return (
-    <section className='custom-scrollbar background-light900_dark200 
-    light-border sticky top-0 left-0 h-screen flex flex-col justify-between overflow-y-auto border-r p-6 pt-36
-      shadow-light-300 dark:shadow-none max-sm:hidden lg:w-[266px]'>
+    <section className=" custom-scrollbar background-light900_dark200 light-border sticky top-0 left-0 h-screen flex flex-col justify-between overflow-y-auto border-r p-6 pt-36
+      shadow-light-300 dark:shadow-none max-sm:hidden lg:w-[266px]">
       <div className='flex flex-1 flex-col gap-6 '>
         <NavLinks />
       </div>

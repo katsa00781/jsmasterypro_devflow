@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { SessionProvider } from "next-auth/react";
 import React from "react";
 
+import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 import ThemProvider from "@/contex/Theme";
-import { SessionProvider } from "next-auth/react";
-import { auth } from "@/auth";
 
 
 
@@ -39,6 +39,13 @@ export const metadata: Metadata = {
 
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        
+      <link rel="stylesheet"
+       type='text/css'
+        href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+          
+      </head>
      <SessionProvider session={session}>
 
     
