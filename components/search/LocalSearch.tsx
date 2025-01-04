@@ -1,11 +1,11 @@
 'use client'
 
 import Image from 'next/image'
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 
 
-import { formUrlQuery } from '@/lib/url';
+import { formUrlQuery, removeKeysFromQuery } from '@/lib/url';
 
 import { Input } from '../ui/input'
 
@@ -22,6 +22,7 @@ interface Props {
 const LocalSearch = ({route, imgsrc, placeholder, otherClasses}: Props) => {
 
         const router = useRouter();
+        const pathname = usePathname();
 
         const searchParams = useSearchParams();
         const query = searchParams.get('query') || '';
@@ -29,17 +30,30 @@ const LocalSearch = ({route, imgsrc, placeholder, otherClasses}: Props) => {
         const [searchQuery, setSearchQuery] = useState(query);
 
         useEffect(() => {
-          if (searchQuery) {
-            const newUrl = formUrlQuery({
-              key: 'query',
-              value: searchQuery,
-              params: searchParams.toString()
-            })
-            router.push(newUrl , {scroll: false})
-          }
 
-          // a search query  változik akkor frissít a useEffect
-        }, [searchQuery, router, searchParams, route])
+          const delayDebounceFn = setTimeout(() => {
+            if (searchQuery) {
+              const newUrl = formUrlQuery({
+                key: 'query',
+                value: searchQuery,
+                params: searchParams.toString()
+              })
+              router.push(newUrl , {scroll: false})
+            } else {
+              if (pathname === route) {
+                const newUrl = removeKeysFromQuery({
+                  keysToRemove: ['query'],
+                  params: searchParams.toString()
+              });
+              router.push(newUrl, {scroll: false})
+              }
+            }
+          } , 1000);
+          return () => clearTimeout(delayDebounceFn);
+          
+        }, [searchQuery, router, searchParams, route, pathname]);
+        
+
      
 
   return (
