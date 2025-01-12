@@ -8,6 +8,8 @@ export interface ITag {
     question: number;
 }
 
+export interface ITagDocument extends ITag, Document {}
+
 const TagSchema = new Schema<ITag>({
     name: {type: String, required: true, unique: true},
     question: {type: Number , default: 0},

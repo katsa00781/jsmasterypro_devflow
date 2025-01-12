@@ -13,6 +13,8 @@ export interface IQuestion {
     author: Types.ObjectId;
 }
 
+export interface IQuestionDocument extends IQuestion, Document {}
+
 const QuestionSchema = new Schema<IQuestion>({
     title: {type: String, required: true},
     content: {type: String, required: true},
