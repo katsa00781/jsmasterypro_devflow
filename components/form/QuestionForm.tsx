@@ -1,17 +1,32 @@
 'use client';
 
+
+
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react'
+import { MDXEditorMethods } from '@mdxeditor/editor';
+import dynamic from 'next/dynamic';
+import React, { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { AskQuestionSchema } from '@/lib/validations';
 
+
+import { Button } from '../ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { Input } from '../ui/input';
-import { Button } from '../ui/button';
-import Link from 'next/link';
+
+
+
+
+const Editor = dynamic(() => import('@/components/editor'), {
+  // Make sure we turn SSR off
+  ssr: false
+})
+
 
 const QuestionForm = () => {
+
+  const editorRef = useRef<MDXEditorMethods>(null);
 
     const form = useForm({
         resolver: zodResolver(AskQuestionSchema),
@@ -53,7 +68,10 @@ const handleCreateQuestion = async () => {}
                 <FormItem className=" flex w-full flex-col gap-2.5">
                   <FormLabel className='paragraph-semibold text-dark400_light800'>Detail explantion of your problem<span className='text-primary-500'>*</span></FormLabel>
                   <FormControl>
-                    
+                    <Editor
+                    value={field.value}
+                    editorRef={editorRef}
+                    fieldChange={field.onchange}/>
                   </FormControl>
                   <FormDescription className='body-regular mt-2.5 text-light-500' >
                     Be specific and imagine you&apos;re asking a question to another person
