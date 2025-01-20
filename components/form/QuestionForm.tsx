@@ -7,10 +7,14 @@ import { MDXEditorMethods } from '@mdxeditor/editor';
 import dynamic from 'next/dynamic';
 import React, { useRef } from 'react'
 import { useForm } from 'react-hook-form'
+import { z } from 'zod';
 
 import { AskQuestionSchema } from '@/lib/validations';
 
 
+
+
+import TagCard from '../cards/TagCard';
 import { Button } from '../ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import { Input } from '../ui/input';
@@ -28,7 +32,7 @@ const QuestionForm = () => {
 
   const editorRef = useRef<MDXEditorMethods>(null);
 
-    const form = useForm({
+    const form = useForm<z.infer<typeof AskQuestionSchema>>({
         resolver: zodResolver(AskQuestionSchema),
         defaultValues: {
             title: '',
@@ -37,7 +41,49 @@ const QuestionForm = () => {
     }}
 );
 
-const handleCreateQuestion = async () => {}
+const handleInputKeyDown = (
+  e: React.KeyboardEvent<HTMLInputElement>,
+  field : {value: string[]}) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+
+    const tagInput = e.currentTarget.value.trim();
+
+    if (tagInput && tagInput.length < 15 && !field.value.includes(tagInput)) {
+      form.setValue('tags', [...field.value, tagInput]);
+      e.currentTarget.value = '';
+      form.clearErrors('tags');
+    } else if (tagInput.length > 15) {
+      form.setError('tags', {
+        type: 'manual',
+        message: 'Tag must be less than 15 characters'
+      });
+    } else if (field.value.includes(tagInput)) {
+      form.setError('tags', {
+        type: 'manual',
+        message: 'Tag already exists'
+      });
+    }
+  }
+}
+
+const handleRemoveTag = (tag: string , field: {value :string[]}) => {
+  const newTags = field.value.filter((t) => t !== tag);
+
+  form.setValue('tags', newTags);
+
+  if (newTags.length === 0) {
+    form.setError("tags", {
+      type: "manual",
+      message: "You need to add at least one tag"
+    });
+  }
+};
+
+
+const handleCreateQuestion = async (data: z.infer<typeof AskQuestionSchema>) => {
+  console.log(data);
+}
 
   return (
     <Form {...form}>
@@ -71,7 +117,7 @@ const handleCreateQuestion = async () => {}
                     <Editor
                     value={field.value}
                     editorRef={editorRef}
-                    fieldChange={field.onchange}/>
+                    fieldChange={field.onChange}/>
                   </FormControl>
                   <FormDescription className='body-regular mt-2.5 text-light-500' >
                     Be specific and imagine you&apos;re asking a question to another person
@@ -89,10 +135,20 @@ const handleCreateQuestion = async () => {}
                   <FormControl>
                     <div>
                         <Input
-                        {...field}
                         className="paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700
-                         no-focus min-h-[56px] border" placeholder='Add tags...' />
-                         Tags
+                         no-focus min-h-[56px] border" placeholder='Add tags...'
+                         onKeyDown={(e) => handleInputKeyDown(e, field)} />
+                         {field.value.length > 0 && (
+                          <div className='flex-start mt-2.5 flex-wrap gap-2.5'> f
+                           {field.value.map((tag: string) => 
+                          <TagCard key={tag} _id={tag} name={tag} questions={0}
+                          compact
+                           remove 
+                           isButton
+                            handleRemove={() => handleRemoveTag(tag, field)} 
+                          />)}
+                          </div>
+                          )}
                     </div>
                   </FormControl>
                   <FormDescription className='body-regular mt-2.5 text-light-500' >
