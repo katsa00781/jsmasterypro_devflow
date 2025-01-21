@@ -79,4 +79,3 @@ export async function DELETE(_: Request, {params} : {params: Promise<{id: string
 
     return NextResponse.json(ticket);
 }
-
