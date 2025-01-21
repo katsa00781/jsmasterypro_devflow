@@ -1,5 +1,6 @@
 // Mongoose könyvtár importálása a típusdefinícióval együtt
 import mongoose, { Mongoose } from "mongoose";
+import logger from "./handlers/loggers";
 
 // MongoDB kapcsolati URI beolvasása környezeti változóból
 const MONGODB_URI = process.env.MONGODB_URI as string;
@@ -34,6 +35,7 @@ if (!cached) {
 const dbConnect = async (): Promise<Mongoose> => {
   // Ha már van kapcsolat, visszaadjuk azt
   if (cached.conn) {
+    logger.info("Using existing MongoDB connection");
     return cached.conn;
   }
 
@@ -44,11 +46,11 @@ const dbConnect = async (): Promise<Mongoose> => {
         dbName: "devflow",
       })
       .then((result) => {
-        console.log("MongoDB connected");
+        logger.info("MongoDB connected");
         return result;
       })
       .catch((error) => {
-        console.error("MongoDB connection error:", error);
+        logger.error("MongoDB connection error:", error);
         throw error;
       });
   }

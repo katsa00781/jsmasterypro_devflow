@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
-import { RequestError, ValidationError } from "../http-errors";
 import { ZodError } from "zod";
+
+import { RequestError, ValidationError } from "../http-errors";
+import logger from "./loggers";
 
 export type ResponseType = 'api' | 'server';
 
@@ -38,8 +40,10 @@ const formatResponse = (
     };
 
 
-const handleError (error: unknown, responseType: "server") => {
+const handleError = (error: unknown, responseType: "server") => {
     if (error instanceof RequestError) {
+
+        logger.error({err: error}, `${responseType.toUpperCase()} Error: ${error.message}`);
         return formatResponse(
             responseType,
              error.statusCode,
@@ -47,11 +51,16 @@ const handleError (error: unknown, responseType: "server") => {
                error.errors);
     } 
     if (error instanceof ZodError) {
+        logger.error({err: error}, `${responseType.toUpperCase()} Error: ${error.message}`);
         const validationError = new ValidationError(error.flatten().fieldErrors as Record<string, string[]>);
         return formatResponse(responseType, validationError.statusCode, validationError.message, validationError.errors);
     };
     if (error instanceof Error) {
+        logger.error(error.message)
         return formatResponse(responseType, 500, error.message);
     };
+    logger.error('Internal Server Error', error);
     return formatResponse(responseType, 500, 'Internal Server Error');
 }
+
+export default handleError;

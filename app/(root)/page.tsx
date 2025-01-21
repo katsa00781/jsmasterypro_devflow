@@ -1,13 +1,13 @@
 import Link from "next/link";
 
-import { auth } from "@/auth";
+
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constans/routes";
 
 
-
 const Home = async () => {
+
   
   return (
   <>
