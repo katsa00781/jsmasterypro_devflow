@@ -4,9 +4,18 @@ import Link from "next/link";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constans/routes";
+import { api } from "@/lib/handlers/api";
 
 
 const Home = async () => {
+
+  const test = async () => {
+    const users = await api.users.getAll();
+    return users;
+  }
+
+  const users = await test();
+  console.log(users);
 
   
   return (
