@@ -25,8 +25,8 @@ export class ValidationError extends RequestError {
      * @param fieldErrors - Objektum, ami tartalmazza a mezőkhöz tartozó hibaüzeneteket
      * Kulcs: mező neve, Érték: hibaüzenetek tömbje
      */
-    constructor(fieldErrors?: Record<string, string[]>) {
-        const message = ValidationError.formatMessage(fieldErrors);
+    constructor(fieldErrors: Record<string, string[]>) {
+        const message = ValidationError.formatFieldErrors(fieldErrors);
         super(400, message, fieldErrors);
         this.name = 'ValidationError';
         this.errors = fieldErrors;

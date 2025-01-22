@@ -40,7 +40,7 @@ const formatResponse = (
     };
 
 
-const handleError = (error: unknown, responseType: "server") => {
+const handleError = (error: unknown, responseType: "api") => {
     if (error instanceof RequestError) {
 
         logger.error({err: error}, `${responseType.toUpperCase()} Error: ${error.message}`);
