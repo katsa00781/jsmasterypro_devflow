@@ -4,8 +4,8 @@ import { NextResponse } from "next/server";
 import User from "@/lib/database/user.model";
 import handleError from "@/lib/handlers/error";
 import { NotFoundError, ValidationError } from "@/lib/http-errors";
-import { ApiErrorResponse } from "@/types/global";
 import { UserSchema } from "@/lib/validations";
+import { ApiErrorResponse } from "@/types/global";
 
 export async function POST (request : Request) {
     const {email} = await request.json();

@@ -3,9 +3,9 @@ import { NextResponse } from "next/server";
 import User from "@/lib/database/user.model";
 import handleError from "@/lib/handlers/error";
 import { NotFoundError } from "@/lib/http-errors";
-import { ApiErrorResponse } from "@/types/global";
 import dbConnect from "@/lib/mongoose";
 import { UserSchema } from "@/lib/validations";
+import { ApiErrorResponse } from "@/types/global";
 
 
 export async function GET(
@@ -74,4 +74,3 @@ export async function PUT(
         
     }}
 
-    
