@@ -5,17 +5,14 @@ import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constans/routes";
 import { api } from "@/lib/handlers/api";
+import { auth } from "@/auth";
 
 
 const Home = async () => {
 
-  const test = async () => {
-    const users = await api.users.getAll();
-    return users;
-  }
+  const session = await auth();
 
-  const users = await test();
-  console.log(users);
+  console.log("Session" ,session)
 
   
   return (

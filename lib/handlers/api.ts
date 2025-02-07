@@ -1,4 +1,6 @@
 
+import ROUTES from "@/constans/routes";
+
 import { fetchHandler } from "./fetch";
 import { SinginWithOauthParams } from '../../types/action';
 import { IAccount } from "../database/account.model";
@@ -11,7 +13,7 @@ export const api = {
 
     auth: { 
         oAuthSingin: ({ user, provider, providerAccountId}:
-             SinginWithOauthParams) => fetchHandler(`${API_BASE_URL}/auth/signin-with-oauth`, {
+             SinginWithOauthParams) => fetchHandler(`${ROUTES.SIGN_IN_WITH_OAUTH}`, {
                 method: "POST",
                 body: JSON.stringify({ user, provider, providerAccountId}),
              }),
